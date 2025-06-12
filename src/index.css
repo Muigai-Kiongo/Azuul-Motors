@@ -1,328 +1,349 @@
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
+/* CSS Variables for light theme (default) */
+:root {
+    --color-bg: #e5e7eb;
+    /* light grey background */
+    --color-text: #4b5563;
+    --color-text-secondary: #6b7280;
+    --color-primary: #0066ff;
+    --color-primary-hover: #004dcc;
+    --color-header-bg: #f3f4f6;
+    /* very light grey */
+    --color-header-text: #111827;
+    --color-header-shadow: rgba(0, 0, 0, 0.1);
+    --color-footer-bg: #f9fafb;
+    /* off-white / very pale grey */
+    --color-footer-text: #6b7280;
+    --color-nav-link: #374151;
+    --color-nav-link-hover: #2563eb;
 }
 
+/* Dark mode variables */
+body.dark {
+    --color-bg: #121212;
+    --color-text: #d1d5db;
+    --color-text-secondary: #9ca3af;
+    --color-primary: #3b82f6;
+    --color-primary-hover: #2563eb;
+    --color-header-bg: #1f2937;
+    --color-header-text: #f9fafb;
+    --color-header-shadow: rgba(255, 255, 255, 0.1);
+    --color-footer-bg: #1f2937;
+    --color-footer-text: #9ca3af;
+    --color-nav-link: #d1d5db;
+    --color-nav-link-hover: #3b82f6;
+}
+
+/* Global styles */
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     line-height: 1.6;
-    color: #222;
-    background: #f9faff;
+    background-color: var(--color-bg);
+    color: var(--color-text);
     scroll-behavior: smooth;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-a {
-    color: inherit;
-    text-decoration: none;
-}
-
-/* Header and Navigation */
-header {
-    position: fixed;
+/* Header styles */
+.header {
+    position: sticky;
     top: 0;
-    width: 100%;
-    z-index: 10000;
-    background-color: rgba(0, 95, 153, 1);
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-    transition: background-color 0.4s ease, height 0.3s ease, padding 0.3s ease;
-    height: 70px;
-    display: flex;
-    align-items: center;
-    backdrop-filter: none;
-    padding: 0 1rem;
+    background-color: var(--color-header-bg);
+    color: var(--color-header-text);
+    box-shadow: 0 2px 4px var(--color-header-shadow);
+    z-index: 1000;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-header.transparent {
-    background-color: rgba(0, 95, 153, 0.12);
-    /* Transparent with slight tint */
-    backdrop-filter: saturate(180%) blur(12px);
-    box-shadow: none;
-    height: 55px;
-    padding: 0 1rem;
-}
-
-nav {
-    max-width: 1200px;
-    margin: 0 auto;
+.nav-container {
     display: flex;
-    align-items: center;
     justify-content: space-between;
-    width: 100%;
+    align-items: center;
+    padding: 1rem 2rem;
 }
 
-/* Logo and brand heading */
-.logo {
-    width: 150px;
-    height: auto;
+.nav-logo {
+    display: flex;
+    align-items: center;
+    color: var(--color-header-text);
     user-select: none;
-    transition: opacity 0.3s ease;
+}
+
+.logo {
+    width: 50px;
+    margin-right: 10px;
 }
 
 .brand-heading {
+    font-size: 1.5rem;
     font-weight: 700;
-    font-size: 1.8rem;
-    color: white;
-    letter-spacing: 2px;
-    user-select: none;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-    margin: 0;
-    white-space: nowrap;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    /* hidden by default */
-    pointer-events: none;
+    color: var(--color-header-text);
 }
 
-.header-scrolled .logo {
-    opacity: 0;
-    pointer-events: none;
-}
-
-.header-scrolled .brand-heading {
-    opacity: 1;
-    pointer-events: auto;
-}
-
-/* Navigation list */
-ul.nav-list {
+.nav-list {
     list-style: none;
     display: flex;
     gap: 2rem;
 }
 
-ul.nav-list li.nav-item {
+.nav-item {
     cursor: pointer;
-    font-weight: 600;
-    padding: 0.5rem 0;
-    position: relative;
-    color: white;
-    user-select: none;
-    border-bottom: 3px solid transparent;
+}
+
+.nav-item a {
+    text-decoration: none;
+    color: var(--color-nav-link);
+    font-weight: 500;
     transition: color 0.3s ease;
 }
 
-/* Nav item underline animation baseline */
-ul.nav-list li.nav-item::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    height: 3px;
-    width: 0%;
-    background: #00baff;
-    border-radius: 2px;
-    transition: width 0.4s ease;
+.nav-item a:hover,
+.nav-item a:focus {
+    color: var(--color-nav-link-hover);
+    outline: none;
 }
 
-/* Hover underline effect - line expands left to right */
-ul.nav-list li.nav-item:hover::after,
-ul.nav-list li.nav-item:focus::after {
-    width: 100%;
-}
-
-/* Active nav item underline: animated left-to-right or right-to-left based on scroll */
-ul.nav-list li.nav-item.active::after {
-    width: 100%;
-    animation-duration: 1s;
-    animation-timing-function: ease-in-out;
-    animation-iteration-count: infinite;
-    animation-direction: normal;
-    animation-name: underline-slide;
-}
-
-/* For scroll up - reverse animation */
-ul.nav-list li.nav-item.active.reverse::after {
-    animation-name: underline-slide-reverse;
-}
-
-/* Keyframes for underline slide left to right */
-@keyframes underline-slide {
-    0% {
-        left: 0;
-        width: 0%;
-    }
-
-    50% {
-        width: 100%;
-        left: 0;
-    }
-
-    100% {
-        left: 100%;
-        width: 0%;
-    }
-}
-
-/* Keyframes for underline slide right to left */
-@keyframes underline-slide-reverse {
-    0% {
-        left: 100%;
-        width: 0%;
-    }
-
-    50% {
-        width: 100%;
-        left: 0;
-    }
-
-    100% {
-        left: 0;
-        width: 0%;
-    }
-}
-
-/* Changing nav item text color on hover and active */
-ul.nav-list li.nav-item:hover,
-ul.nav-list li.nav-item:focus,
-ul.nav-list li.nav-item.active {
-    color: #00baff;
-}
-
-/* Mobile menu button */
 .menu-toggle {
     display: none;
     background: none;
     border: none;
-    color: white;
+    font-size: 1.5rem;
     cursor: pointer;
-    font-size: 1.6rem;
+    color: var(--color-header-text);
 }
 
-/* Mobile menu styles */
+/* Crescent Moon toggle button */
+.theme-toggle-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.5rem;
+    color: var(--color-header-text);
+    margin-left: 1rem;
+    display: flex;
+    align-items: center;
+    transition: color 0.3s ease;
+}
+
+.theme-toggle-btn:hover,
+.theme-toggle-btn:focus {
+    color: var(--color-primary);
+    outline: none;
+}
+
+/* Responsive for mobile */
 @media (max-width: 768px) {
-    nav {
-        flex-wrap: wrap;
+    .nav-list {
+        display: none;
+        flex-direction: column;
+        position: absolute;
+        top: 70px;
+        left: 0;
+        right: 0;
+        background-color: var(--color-header-bg);
+        box-shadow: 0 2px 4px var(--color-header-shadow);
+        transition: background-color 0.3s ease;
+    }
+
+    .nav-list.show {
+        display: flex;
     }
 
     .menu-toggle {
         display: block;
     }
-
-    ul.nav-list {
-        flex-direction: column;
-        width: 100%;
-        display: none;
-        margin-top: 0.75rem;
-        background-color: rgba(0, 115, 204, 0.9);
-        border-radius: 5px;
-        padding: 0.5rem 0;
-    }
-
-    ul.nav-list.show {
-        display: flex;
-    }
-
-    ul.nav-list li.nav-item {
-        padding: 0.75rem 1rem;
-        gap: 0;
-        border-bottom: none !important;
-    }
-
-    /* Remove underline animation on mobile for simplicity */
-    ul.nav-list li.nav-item::after {
-        display: none;
-    }
 }
 
-/* Main content: offset padding top below fixed header */
-main {
-    max-width: 1200px;
-    margin: 0 auto 2rem;
-    padding: 80px 1rem 2rem 1rem;
-    color: #004466;
-    font-weight: 500;
-    user-select: none;
-}
-
-/* Home section as full viewport hero */
-#home {
+.hero {
     height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    padding: 0 1rem;
-    scroll-margin-top: 80px;
-}
-
-#home h2 {
-    font-size: 3rem;
-    margin-bottom: 1rem;
-    color: #005f99;
-    user-select: text;
-}
-
-#home p {
-    font-size: 1.5rem;
-    max-width: 700px;
-    line-height: 1.4;
-    user-select: text;
-}
-
-/* Other sections with text + inline image */
-section {
-    padding: 3rem 1rem;
-    border-bottom: 1px solid #ddd;
-    scroll-margin-top: 80px;
-}
-
-section:last-child {
-    border-bottom: none;
-}
-
-section h2 {
-    font-size: 2rem;
-    margin-bottom: 1rem;
-    color: #005f99;
-}
-
-.section-content {
-    display: flex;
-    align-items: center;
-    gap: 2rem;
-    max-width: 1000px;
-    margin: 0 auto;
-    flex-wrap: wrap;
-}
-
-.text-content {
-    flex: 1 1 300px;
-    min-width: 280px;
-    user-select: text;
-    font-size: 1.1rem;
-    line-height: 1.5;
-}
-
-.image-placeholder {
-    flex: 1 1 300px;
-    min-width: 280px;
-    height: 200px;
-    background-color: #cce4f7;
-    border-radius: 12px;
-    box-shadow: 0 4px 8px rgba(0, 95, 153, 0.15);
+    background-image: url('/images/vehicles/Interior.jpeg');
+    background-size: cover;
+    background-position: center;
     display: flex;
     justify-content: center;
     align-items: center;
-    color: #005f99;
-    font-weight: 700;
-    font-size: 1.25rem;
-    user-select: none;
-}
-
-@media (max-width: 768px) {
-    .section-content {
-        flex-direction: column;
-    }
-}
-
-/* Footer */
-footer {
-    background-color: #003d66;
+    position: relative;
     color: white;
     text-align: center;
-    padding: 1rem 0;
+}
+
+.hero-container {
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.hero-title {
+    font-size: 3rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+}
+
+.hero-subtitle {
+    font-size: 1.5rem;
+    max-width: 600px;
+    margin: 0 auto;
+    transition: opacity 0.5s ease;
+}
+
+.fade-in {
+    opacity: 1;
+}
+
+.fade-out {
+    opacity: 0;
+}
+
+/* Carlist */
+.car-list {
+    padding: 2rem;
+    text-align: center;
+    background-color: var(--color-bg);
+}
+
+.car-list a {
+    text-decoration: none;
+}
+
+.car-list-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+}
+
+.car-card {
+    background-color: var(--color-footer-bg);
+    border: 1px solid var(--color-text-secondary);
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    width: 300px;
+    overflow: hidden;
+    transition: transform 0.3s;
+}
+
+.car-card:hover {
+    transform: scale(1.05);
+}
+
+.car-image {
+    width: 100%;
+    height: auto;
+}
+
+.car-name {
+    font-size: 1.5rem;
+    margin: 0.5rem 0;
+    color: var(--color-text);
+}
+
+.car-price {
+    font-size: 1.25rem;
+    color: var(--color-primary);
+}
+
+.car-description {
+    font-size: 1rem;
+    color: var(--color-text-secondary);
+}
+
+.car-detail {
+    padding: 2rem;
+    text-align: center;
+}
+
+.car-images {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.car-detail-image {
+    width: 100%;
+    max-width: 200px;
+    height: auto;
+}
+
+.car-detail-price {
+    font-size: 1.5rem;
+    color: var(--color-primary);
+
+}
+
+.car-detail-description {
+    font-size: 1.25rem;
+    color: var(--color-text-secondary);
+}
+
+.car-specs {
+    list-style: none;
+    padding: 0;
+    text-align: left;
+}
+
+
+.search-container {
+    margin-bottom: 1.5rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.search-input {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid var(--color-text-secondary);
+    border-radius: 4px;
+    font-size: 1rem;
+}
+
+.filter-select {
+    margin-left: 1rem;
+    padding: 0.5rem;
+    border: 1px solid var(--color-text-secondary);
+    border-radius: 4px;
+    font-size: 1rem;
+}
+
+
+.footer {
+    background-color: var(--color-footer-bg);
+    color: var(--color-footer-text);
+    padding: 2rem 0;
+    text-align: center;
+}
+
+.footer-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.footer-nav,
+.footer-support,
+.footer-contact,
+.footer-location {
+    flex: 1;
+    min-width: 200px;
+    margin: 1rem;
+}
+
+.footer-nav ul {
+    list-style: none;
+    padding: 0;
+}
+
+.footer-nav a {
+    color: var(--color-footer-text);
+    text-decoration: none;
+}
+
+.footer-nav a:hover {
+    text-decoration: underline;
+}
+
+.footer-bottom {
+    margin-top: 1rem;
     font-size: 0.9rem;
-    user-select: none;
 }
